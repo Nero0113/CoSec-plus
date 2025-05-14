@@ -12,7 +12,7 @@ The directory structure of this repository is shown as below:
 .
 |-- Knowledge Distillation	#Code, Scripts, and README for functional correctness alignment 
 
-|-- CoSec+									#Code, Scripts, and README for security training and Co-Decoding
+|-- CoSec+	#Code, Scripts, and README for security training and Co-Decoding
 
 ```
 
