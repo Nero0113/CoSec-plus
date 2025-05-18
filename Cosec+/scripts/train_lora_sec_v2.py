@@ -2,13 +2,14 @@ import argparse
 import logging
 import os
 import re
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "1,1"
+import sys
+sys.path.append('../')
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from collections import OrderedDict
-import sys
 
-sys.path.append('../')
+
+
 from utils import add_to_loss_dict, report_loss_dict, save
 
 import torch.nn.functional as F
@@ -28,15 +29,15 @@ logger = logging.getLogger()
 def parse_args():
     parser = argparse.ArgumentParser(description='Train LoRA for security generation')
 
-    parser.add_argument('--base_model', type=str, default='/path/to/Distill/checkpoints/Qwen2.5-Coder-1.5B',
+    parser.add_argument('--base_model', type=str, default='/home/public_space/yanmeng/lidong/models/deepseek-coder-1.3b',
                         help='模型id或local path')
-    parser.add_argument('--ref_model', type=str, default='/path/to/Distill/checkpoints/Qwen2.5-Coder-1.5B',
+    parser.add_argument('--ref_model', type=str, default='/home/public_space/yanmeng/lidong/models/deepseek-coder-1.3b',
                         help='模型id或local path')
 
     parser.add_argument('--data_path', type=str, default='../data_train_val/train', help='训练数据路径')
     parser.add_argument('--val_path', type=str, default='../data_train_val/val', help='评估数据路径')
     parser.add_argument('--train_type', type=str, default='sec', help='训练类型')
-    parser.add_argument('--output_dir', type=str, default='../trained/Qwen2.5/only_sec-1.5B')
+    parser.add_argument('--output_dir', type=str, default='../trained/deepseek')
     parser.add_argument('--num_train_epochs', type=int, default=10)
     parser.add_argument('--learning_rate', type=float, default=5e-5)
     parser.add_argument('--num_workers_dataloader', type=int, default=1)
@@ -297,15 +298,15 @@ def main():
     num_devices = torch.cuda.device_count()
 
     # 创建一个包含所有设备的列表
-    devices = [torch.device(f"cuda:{i}") for i in range(num_devices)]
-    device_0 = devices[0]
-    device_1 = devices[1]
+    # devices = [torch.device(f"cuda:{i}") for i in range(num_devices)]
+    # device_0 = devices[0]
+    # device_1 = devices[1]
 
     # model = CodeGenForCausalLM.from_pretrained(args.base_model, device_map='auto', )
     # ref_model = CodeGenForCausalLM.from_pretrained(args.ref_model, device_map='auto', )
-    model = AutoModelForCausalLM.from_pretrained(args.base_model, device_map=device_0, )
+    model = AutoModelForCausalLM.from_pretrained(args.base_model, device_map='auto', )
 
-    ref_model = AutoModelForCausalLM.from_pretrained(args.base_model, device_map=device_1, )
+    ref_model = AutoModelForCausalLM.from_pretrained(args.base_model, device_map='auto', )
     model.resize_token_embeddings(len(tokenizer))
     ref_model.resize_token_embeddings(len(tokenizer))
     # target_modules = ["q_proj","v_proj"]
