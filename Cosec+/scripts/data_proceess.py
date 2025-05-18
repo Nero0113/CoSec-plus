@@ -20,59 +20,54 @@ class LoRA_Dataset(Dataset):
         self.tokenizer = tokenizer
         self.is_train = train
         self.get_dataset()
-        # self.dataset_balance()  # 向上采样 v2
+        self.dataset_balance()
 
-    def get_dataset(self):
-        type_map = {'sec': 0, 'vul': 1}
-        #构建jsonl文件列表
-        if self.is_train:
-            data_path = Path(os.path.join(self.args.data_path))
-        else:
-            data_path = Path(os.path.join(self.args.val_path))
-        jsonl_list = [str(p) for p in data_path.glob('*.jsonl')]
-        #label = type_map[self.args.train_type]
-        raw_data = load_dataset('json', data_files=jsonl_list)
-
-        for i, item in enumerate(raw_data['train']):
-            # func_src_before = item['func_src_before']
-            # diff_deleted = item['char_changes']['deleted']
-            # data = self.add_data(1, func_src_before, diff_deleted, i, item['file_name'].split('.')[-1])
-            # if data is not None:
-            #     self.data.append(data)
-            # print(item['vul_type'])
-            func_src_after = item['func_src_after']
-            diff_added = item['char_changes']['added']
-            data = self.add_data(0, func_src_after, diff_added, item['vul_type'], item['file_name'].split('.')[-1])
-            if data is not None:
-                self.data.append(data)
 
     def dataset_balance(self):
-        target_count = 92
-        # Group data by label
-        label_to_items = defaultdict(list)
+
+        AVG_CWE_COUNT = 60  # n
+        LANG_TARGET = 10  # k
+
+        cwe_to_items = defaultdict(list)
         for item in self.data:
-            # Access the label; modify this line if your label is stored differently
-            label = item[3]  # or use item.label if label is an attribute
-            label_to_items[label].append(item)
-        balanced_data = []
-        for label, items in label_to_items.items():
-            current_count = len(items)
-            if current_count < target_count:
-                oversampled_items = [random.choice(items) for _ in range(target_count)]
-                balanced_data.extend(oversampled_items)
+            cwe_type = item[3]  # vul_id / CWE label
+            cwe_to_items[cwe_type].append(item)
+
+        stage1_data = []
+        for cwe_type, items in cwe_to_items.items():
+            if len(items) < AVG_CWE_COUNT:
+
+                replicated = [random.choice(items) for _ in range(AVG_CWE_COUNT)]
+                stage1_data.extend(replicated)
             else:
-                # Undersample: randomly sample without replacement
-                undersampled_items = random.sample(items, target_count)
-                balanced_data.extend(undersampled_items)
 
-        #建立dict统计每种漏洞类型的数量
-        # vul_count = defaultdict(int)
-        # for item in balanced_data:
-        #     vul_count[item[3]] += 1
-        # print(vul_count)
-        self.data = balanced_data
+                stage1_data.extend(items)
 
 
+        if stage1_data and len(stage1_data[0]) > 4:
+            cwe_lang_to_items = defaultdict(list)
+            for item in stage1_data:
+                cwe_type = item[3]
+                lang = item[4]  # language string
+                cwe_lang_to_items[(cwe_type, lang)].append(item)
+
+            final_data = []
+
+            cwe_to_langs = defaultdict(list)
+            for (cwe_type, lang), items in cwe_lang_to_items.items():
+                cwe_to_langs[cwe_type].append((lang, items))
+
+            for cwe_type, lang_items in cwe_to_langs.items():
+                for lang, items in lang_items:
+                    if len(items) < LANG_TARGET:
+                        replicated = [random.choice(items) for _ in range(LANG_TARGET)]
+                        final_data.extend(replicated)
+                    else:
+                        final_data.extend(items)
+            self.data = final_data
+        else:
+
+            self.data = stage1_data
 
     def add_data(self, label, src, changes, vul_id, lang):
         control_id = label
