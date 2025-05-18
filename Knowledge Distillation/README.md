@@ -34,3 +34,11 @@ bash scripts/Qwen-2.5/kd/kd_1.5B_7B_two_gpus.sh
 # starcoder
 bash scripts/starcoder/kd/kd_1B_7B_rkl.sh
 ```
+
+## Acknowledgement
+
+Our research work is based on the code of [magicoder](https://github.com/microsoft/LMOps), and its content has been partially modified. For more details, please refer to their repository. Sincerely grateful for their excellent work.
+
+If you have any questions, please feel free to contact me.
+
+I am also working hard to obtain my Ph.D. degree, so I may not be able to reply timely.
