@@ -13,7 +13,7 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE \
                   --master_port $MASTER_PORT"
 
 # model
-BASE_PATH=${1-"/home/public_space/liuchao/shushanfu/LMOps"}
+BASE_PATH=${1-"/path/to/Distill"}
 CKPT_NAME="StarCoder-1B"
 CKPT="${BASE_PATH}/checkpoints/${CKPT_NAME}/"
 
@@ -94,7 +94,7 @@ export NCCL_DEBUG=""
 export WANDB_DISABLED=True
 export TF_CPP_MIN_LOG_LEVEL=3
 export PYTHONPATH=${BASE_PATH}
-CMD="torchrun ${DISTRIBUTED_ARGS} ${BASE_PATH}/finetune_org.py ${OPTS} $@"
+CMD="torchrun ${DISTRIBUTED_ARGS} ${BASE_PATH}/finetune.py ${OPTS} $@"
 
 echo ${CMD}
 echo "PYTHONPATH=${PYTHONPATH}"

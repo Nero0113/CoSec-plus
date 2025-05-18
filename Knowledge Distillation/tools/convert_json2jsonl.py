@@ -13,10 +13,10 @@ def convert_json_to_jsonl(json_file_path, jsonl_file_path):
             jsonl_file.write(json.dumps(entry) + '\n')
 
 # 用法示例
-# json_file_path = '/home/liuchao/shushanfu/LMOps/data/codealpaca/code_alpaca_20k.json'  # 输入的JSON文件路径
-# jsonl_file_path = '/home/liuchao/shushanfu/LMOps/data/codealpaca/codealpaca.jsonl'  # 输出的JSONL文件路径
+# json_file_path = '/path/to/Distill/data/codealpaca/code_alpaca_20k.json'  # 输入的JSON文件路径
+# jsonl_file_path = '/path/to/Distill/data/codealpaca/codealpaca.jsonl'  # 输出的JSONL文件路径
 # 用法示例
-json_file_path = '/home/liuchao/shushanfu/LMOps/data/our/generated_responses_template75/raw.json'  # 输入的JSON文件路径
-jsonl_file_path = '/home/liuchao/shushanfu/LMOps/data/our/generated_responses_template75/raw.jsonl'  # 输出的JSONL文件路径
+json_file_path = '/path/to/Distill/data/our/generated_responses_template75/raw.json'  # 输入的JSON文件路径
+jsonl_file_path = '/path/to/Distill/data/our/generated_responses_template75/raw.jsonl'  # 输出的JSONL文件路径
 
 convert_json_to_jsonl(json_file_path, jsonl_file_path)
