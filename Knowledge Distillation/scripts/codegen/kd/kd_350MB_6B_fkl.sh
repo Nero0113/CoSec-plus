@@ -12,12 +12,12 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE \
                   --master_addr $MASTER_ADDR \
                   --master_port $MASTER_PORT"
 # model
-BASE_PATH=${1-"/home/public_space/liuchao/shushanfu/LMOps"}
+BASE_PATH=${1-"/path/to/Distill"}
 CKPT_NAME="codegen-350M"
 CKPT="${BASE_PATH}/checkpoints/${CKPT_NAME}/"
 
 TEACHER_CKPT_NAME="codegen2-7B"
-TEACHER_CKPT="/home/liuchao/shushanfu/LMOps/checkpoints/${TEACHER_CKPT_NAME}/"
+TEACHER_CKPT="/path/to/Distill/checkpoints/${TEACHER_CKPT_NAME}/"
 
 # MP_SIZE=4
 # data
@@ -93,7 +93,7 @@ export NCCL_DEBUG=""
 export WANDB_DISABLED=True
 export TF_CPP_MIN_LOG_LEVEL=3
 export PYTHONPATH=${BASE_PATH}
-CMD="torchrun ${DISTRIBUTED_ARGS} ${BASE_PATH}/finetune_org.py ${OPTS} $@"
+CMD="torchrun ${DISTRIBUTED_ARGS} ${BASE_PATH}/finetune.py ${OPTS} $@"
 
 echo ${CMD}
 echo "PYTHONPATH=${PYTHONPATH}"

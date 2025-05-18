@@ -13,7 +13,7 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE \
                   --master_port $MASTER_PORT"
 
 # model
-BASE_PATH=${1-"/home/public_space/liuchao/shushanfu/LMOps"}
+BASE_PATH=${1-"/path/to/Distill"}
 CKPT_NAME="Qwen2.5-Coder-0.5B"
 CKPT="${BASE_PATH}/checkpoints/${CKPT_NAME}/"
 

@@ -1,4 +1,4 @@
-BASE_PATH=${1-"/home/liuchao/shushanfu/LMOps"}
+BASE_PATH=${1-"/path/to/Distill"}
 
 export TF_CPP_MIN_LOG_LEVEL=3
 
