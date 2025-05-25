@@ -1,0 +1,13 @@
+numpy==1.25.2
+PyYAML==6.0.1
+scipy==1.11.2
+torch==2.0.1
+tqdm==4.65.0
+transformers==4.33.0
+peft
+lizard
+diff-match-patch
+tabulate
+libcst
+datasets
+yamlize
