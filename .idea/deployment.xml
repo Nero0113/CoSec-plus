@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="lidong@192.168.3.63:22 password (20)" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="lidong@192.168.3.63:22 password (20)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/public_space/yanmeng/lidong/code/CoSec-plus" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
