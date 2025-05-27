@@ -34,3 +34,7 @@ bash scripts/Qwen-2.5/kd/kd_1.5B_7B_two_gpus.sh
 # starcoder
 bash scripts/starcoder/kd/kd_1B_7B_rkl.sh
 ```
+
+**We provide three distilled security model bases.** You can download it from Google Drive: 
+
+https://drive.google.com/drive/folders/1j0kf1lBDwK9AmUw1JVQ0RhiIDjHiDLY3?usp=drive_link
