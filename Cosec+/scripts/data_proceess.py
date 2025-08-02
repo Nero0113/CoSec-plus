@@ -25,7 +25,7 @@ class LoRA_Dataset(Dataset):
 
     def dataset_balance(self):
 
-        AVG_CWE_COUNT = 60  # n
+        AVG_CWE_COUNT = 80  # n
         LANG_TARGET = 10  # k
 
         cwe_to_items = defaultdict(list)
